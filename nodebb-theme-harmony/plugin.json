@@ -9,9 +9,7 @@
 		{ "hook": "filter:user.saveSettings", "method": "saveUserSettings" },
 		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
 		{ "hook": "filter:middleware.renderHeader", "method": "filterMiddlewareRenderHeader" },
-		{ "hook": "filter:teasers.configureStripTags", "method": "filterTeasersConfigureStripTags"},
-		{ "hook": "filter:post.get", "method": "addEndorsementFlag" },
-		{ "hook": "action:post.save", "method": "saveEndorsement" }
+		{ "hook": "filter:teasers.configureStripTags", "method": "filterTeasersConfigureStripTags"}
 
 	],
 	"scripts": [
