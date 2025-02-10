@@ -512,3 +512,14 @@ postsAPI.getReplies = async (caller, { pid }) => {
 
 	return postData;
 };
+
+Posts.setPostEndorsement = async function (pid, endorsedBy) {
+	await db.setObjectField(`post:${pid}`, 'endorsed', true);
+	await db.setObjectField(`post:${pid}`, 'endorsedBy', endorsedBy);
+  };
+  
+  Posts.getPostEndorsement = async function (pid) {
+	const isEndorsed = await db.getObjectField(`post:${pid}`, 'endorsed');
+	const endorsedBy = await db.getObjectField(`post:${pid}`, 'endorsedBy');
+	return { isEndorsed: isEndorsed === 'true', endorsedBy };
+  };
