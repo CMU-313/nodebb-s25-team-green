@@ -10,6 +10,7 @@
 		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
 		{ "hook": "filter:middleware.renderHeader", "method": "filterMiddlewareRenderHeader" },
 		{ "hook": "filter:teasers.configureStripTags", "method": "filterTeasersConfigureStripTags"}
+
 	],
 	"scripts": [
 		"public/harmony.js"

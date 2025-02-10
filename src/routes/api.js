@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const Posts = require('../posts');
 
 const uploadsController = require('../controllers/uploads');
 const helpers = require('./helpers');
@@ -42,4 +43,20 @@ module.exports = function (app, middleware, controllers) {
 		middleware.canViewUsers,
 		middleware.checkAccountPermissions,
 	], helpers.tryRoute(controllers.accounts.edit.uploadPicture));
+	
+	router.post('/api/post/:pid/endorse', async (req, res) => {
+		const pid = req.params.pid;
+		const uid = req.user ? req.user.uid : null;
+	  
+		if (!uid) {
+		  return res.status(403).send('Not authorized');
+		}
+	  
+		try {
+		  await Posts.setPostEndorsement(pid);
+		  res.status(200).send({ success: true });
+		} catch (err) {
+		  res.status(500).send({ error: err.message });
+		}
+	  });
 };
