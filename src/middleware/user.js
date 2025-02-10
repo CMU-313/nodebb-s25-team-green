@@ -36,6 +36,14 @@ const passportAuthenticateAsync = function (req, res) {
 	});
 };
 
+function authViaCookie(res, req) {
+	return res.locals.isAPI && (req.loggedIn || !req.headers.hasOwnProperty('authorization'));
+}
+
+function bodyOrQueryHasUid(req) {
+	return req.body.hasOwnProperty('_uid') || req.query.hasOwnProperty('_uid');
+}
+
 module.exports = function (middleware) {
 	async function authenticate(req, res) {
 		async function finishLogin(req, user) {
@@ -47,7 +55,7 @@ module.exports = function (middleware) {
 			return true;
 		}
 
-		if (res.locals.isAPI && (req.loggedIn || !req.headers.hasOwnProperty('authorization'))) {
+		if (authViaCookie(res, req)) {
 			// If authenticated via cookie (express-session), protect routes with CSRF checking
 			await middleware.applyCSRFasync(req, res);
 		}
@@ -62,7 +70,7 @@ module.exports = function (middleware) {
 				return await finishLogin(req, user);
 			} else if (user.hasOwnProperty('master') && user.master === true) {
 				// If the token received was a master token, a _uid must also be present for all calls
-				if (req.body.hasOwnProperty('_uid') || req.query.hasOwnProperty('_uid')) {
+				if (bodyOrQueryHasUid(req)) {
 					user.uid = req.body._uid || req.query._uid;
 					delete user.master;
 					return await finishLogin(req, user);
