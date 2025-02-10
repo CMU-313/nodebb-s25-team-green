@@ -72,9 +72,15 @@ userController.getUserDataByUID = async function (callerUid, uid) {
 	}
 
 	userData = await user.hidePrivateData(userData, callerUid);
+	userData.title = userData.groupTitleArray ? userData.groupTitleArray[0] : ''; // Assign first group title if available
+
+	// Fetch and include user title
+	const title = await user.getUserField(uid, 'title');
+	userData.title = title || '';  // Ensure a default empty string if no title exists
 
 	return userData;
 };
+
 
 require('../promisify')(userController, [
 	'getCurrentUser', 'getUserByUID', 'getUserByUsername', 'getUserByEmail',
