@@ -48,7 +48,6 @@ exports.post = async function (req, res) {
 		content: body.content,
 		handle: body.handle,
 		fromQueue: false,
-		visibility: body.visibility || 'public', // adds visibility to data object
 	};
 	req.body.noscript = 'true';
 

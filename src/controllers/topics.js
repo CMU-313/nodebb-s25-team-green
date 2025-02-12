@@ -35,12 +35,6 @@ topicsController.get = async function getTopic(req, res, next) {
 	if (!topicData) {
 		return next();
 	}
-
-	// check visibility
-	if (topicData.visibility === 'private' && topicData.uid !== req.uid) {
-		return helpers.notAllowed(req, res);
-	}
-
 	const [
 		userPrivileges,
 		settings,
