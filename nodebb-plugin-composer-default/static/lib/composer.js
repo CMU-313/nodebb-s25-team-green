@@ -329,17 +329,17 @@ define('composer', [
 			This method enhances a composer container with client-side sugar (preview, etc)
 			Everything in here also applies to the /compose route
 		*/
-	
+
 		if (!post_uuid && !postData) {
 			post_uuid = utils.generateUUID();
 			composer.posts[post_uuid] = ajaxify.data;
 			postData = ajaxify.data;
 			postContainer.attr('data-uuid', post_uuid);
 		}
-	
+
 		categoryList.init(postContainer, composer.posts[post_uuid]);
 		scheduler.init(postContainer, composer.posts);
-	
+
 		formatting.addHandler(postContainer);
 		formatting.addComposerButtons();
 		preview.handleToggler(postContainer);
@@ -347,36 +347,36 @@ define('composer', [
 		uploads.initialize(post_uuid);
 		tags.init(postContainer, composer.posts[post_uuid]);
 		autocomplete.init(postContainer, post_uuid);
-	
+
 		postContainer.on('change', 'input, textarea', function () {
 			composer.posts[post_uuid].modified = true;
 		});
-	
+
 		postContainer.on('click', '.composer-submit', function (e) {
 			e.preventDefault();
 			e.stopPropagation(); // Other click events bring composer back to active state which is undesired on submit
-	
+
 			$(this).attr('disabled', true);
 			post(post_uuid);
 		});
-	
+
 		require(['mousetrap'], function (mousetrap) {
 			mousetrap(postContainer.get(0)).bind('mod+enter', function () {
 				postContainer.find('.composer-submit').attr('disabled', true);
 				post(post_uuid);
 			});
 		});
-	
+
 		postContainer.find('.composer-discard').on('click', function (e) {
 			e.preventDefault();
-	
+
 			if (!composer.posts[post_uuid].modified) {
 				composer.discard(post_uuid);
 				return removeComposerHistory();
 			}
-	
+
 			formatting.exitFullscreen();
-	
+
 			var btn = $(this).prop('disabled', true);
 			translator.translate('[[modules:composer.discard]]', function (translated) {
 				bootbox.confirm(translated, function (confirm) {
@@ -388,29 +388,29 @@ define('composer', [
 				});
 			});
 		});
-	
+
 		postContainer.find('.composer-minimize, .minimize .trigger').on('click', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			composer.minimize(post_uuid);
 		});
-	
+
 		const textareaEl = postContainer.find('textarea');
 		textareaEl.on('input propertychange', utils.debounce(function () {
 			preview.render(postContainer);
 		}, 250));
-	
+
 		textareaEl.on('scroll', function () {
 			preview.matchScroll(postContainer);
 		});
-	
+
 		drafts.init(postContainer, postData);
 		const draft = drafts.get(postData.save_id);
-	
+
 		preview.render(postContainer, function () {
 			preview.matchScroll(postContainer);
 		});
-	
+
 		if (postData.action === 'posts.edit' && !utils.isNumber(postData.pid)) {
 			handleRemotePid(postContainer);
 		}
@@ -420,17 +420,12 @@ define('composer', [
 		if (postData.action === 'posts.edit') {
 			composer.updateThumbCount(post_uuid, postContainer);
 		}
-	
+
 		// Hide "zen mode" if fullscreen API is not enabled/available (ahem, iOS...)
 		if (!screenfull.isEnabled) {
 			$('[data-format="zen"]').parent().addClass('hidden');
 		}
-	
-		// Add the event listener for composer:pre-submit
-		$(window).on('composer:pre-submit', function (ev, data) {
-			data.isPrivate = $('#visibility').prop('checked');
-		});
-	
+
 		hooks.fire('action:composer.enhanced', { postContainer, postData, draft });
 	};
 
@@ -672,21 +667,20 @@ define('composer', [
 		var titleEl = postContainer.find('.title');
 		var bodyEl = postContainer.find('textarea');
 		var thumbEl = postContainer.find('input#topic-thumb-url');
-		var visibilityEl = postContainer.find('input#visibility'); // check if checkbox is checked
 		var onComposeRoute = postData.hasOwnProperty('template') && postData.template.compose === true;
 		const submitBtn = postContainer.find('.composer-submit');
-	
+
 		titleEl.val(titleEl.val().trim());
 		bodyEl.val(utils.rtrim(bodyEl.val()));
 		if (thumbEl.length) {
 			thumbEl.val(thumbEl.val().trim());
 		}
-	
+
 		var action = postData.action;
-	
+
 		var checkTitle = (postData.hasOwnProperty('cid') || parseInt(postData.pid, 10)) && postContainer.find('input.title').length;
 		var isCategorySelected = !checkTitle || (checkTitle && parseInt(postData.cid, 10));
-	
+
 		// Specifically for checking title/body length via plugins
 		var payload = {
 			post_uuid: post_uuid,
@@ -697,14 +691,14 @@ define('composer', [
 			bodyEl: bodyEl,
 			bodyLen: bodyEl.val().length,
 		};
-	
+
 		await hooks.fire('filter:composer.check', payload);
 		$(window).trigger('action:composer.check', payload);
-	
+
 		if (payload.error) {
 			return composerAlert(post_uuid, payload.error);
 		}
-	
+
 		if (uploads.inProgress[post_uuid] && uploads.inProgress[post_uuid].length) {
 			return composerAlert(post_uuid, '[[error:still-uploading]]');
 		} else if (checkTitle && payload.titleLen < parseInt(config.minimumTitleLength, 10)) {
@@ -722,13 +716,13 @@ define('composer', [
 		} else if (scheduler.isActive() && scheduler.getTimestamp() <= Date.now()) {
 			return composerAlert(post_uuid, '[[error:scheduling-to-past]]');
 		}
-	
+
 		let composerData = {
 			uuid: post_uuid,
 		};
 		let method = 'post';
 		let route = '';
-	
+
 		if (action === 'topics.post') {
 			route = '/topics';
 			composerData = {
@@ -740,7 +734,6 @@ define('composer', [
 				cid: categoryList.getSelectedCid(),
 				tags: tags.getTags(post_uuid),
 				timestamp: scheduler.getTimestamp(),
-				isPrivate: visibilityEl.is(':checked'), // setting isPrivaete to true if checkbox is checked
 			};
 		} else if (action === 'posts.reply') {
 			route = `/topics/${postData.tid}`;
@@ -765,9 +758,6 @@ define('composer', [
 				timestamp: scheduler.getTimestamp(),
 			};
 		}
-
-		$(window).trigger('composer:pre-submit', composerData); //trigger event listener prior to submission
-
 		var submitHookData = {
 			composerEl: postContainer,
 			action: action,
@@ -775,25 +765,25 @@ define('composer', [
 			postData: postData,
 			redirect: true,
 		};
-	
+
 		await hooks.fire('filter:composer.submit', submitHookData);
 		hooks.fire('action:composer.submit', Object.freeze(submitHookData));
-	
+
 		// Minimize composer (and set textarea as readonly) while submitting
 		var taskbarIconEl = $('#taskbar .composer[data-uuid="' + post_uuid + '"] i');
 		var textareaEl = postContainer.find('.write');
 		taskbarIconEl.removeClass('fa-plus').addClass('fa-circle-o-notch fa-spin');
 		composer.minimize(post_uuid);
 		textareaEl.prop('readonly', true);
-	
+
 		api[method](route, composerData)
 			.then((data) => {
 				submitBtn.removeAttr('disabled');
 				postData.submitted = true;
-	
+
 				composer.discard(post_uuid);
 				drafts.removeDraft(postData.save_id);
-	
+
 				if (data.queued) {
 					alerts.alert({
 						type: 'success',
@@ -820,7 +810,7 @@ define('composer', [
 				} else {
 					removeComposerHistory();
 				}
-	
+
 				hooks.fire('action:composer.' + action, { composerData: composerData, data: data });
 			})
 			.catch((err) => {
