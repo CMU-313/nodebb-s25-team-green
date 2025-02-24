@@ -1,8 +1,8 @@
 # Team Members
-Brady Nolin
-Panpan Tochirakul
-Patrice Bortey
-Riya Kinny
+• Brady Nolin\n
+• Panpan Tochirakul\n
+• Patrice Bortey\n
+• Riya Kinny\n
 
 
 # ![NodeBB](public/images/sm-card.png)
