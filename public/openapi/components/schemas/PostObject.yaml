@@ -27,6 +27,8 @@ PostObject:
       description: An ISO 8601 formatted date string (complementing `timestamp`)
     isAnonymous:
       type: boolean
+      description: "Indicates whether the post was made anonymously. Defaults to false if not present."
+      nullable: true
     user:
       type: object
       properties:

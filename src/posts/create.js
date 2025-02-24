@@ -14,8 +14,7 @@ const privileges = require('../privileges');
 module.exports = function (Posts) {
 	Posts.create = async function (data) {
 		// This is an internal method, consider using Topics.reply instead
-		const { uid } = data;
-		const { tid } = data;
+		const { uid, tid, isAnonymous = false } = data;
 		const content = data.content.toString();
 		const timestamp = data.timestamp || Date.now();
 		const isMain = data.isMain || false;
@@ -35,6 +34,7 @@ module.exports = function (Posts) {
 			tid: tid,
 			content: content,
 			timestamp: timestamp,
+			isAnonymous: isAnonymous,
 		};
 
 		if (data.toPid) {
@@ -68,8 +68,10 @@ module.exports = function (Posts) {
 		result = await plugins.hooks.fire('filter:post.get', { post: postData, uid: data.uid });
 		result.post.isMain = isMain;
 		plugins.hooks.fire('action:post.save', { post: _.clone(result.post) });
+
 		return result.post;
 	};
+
 
 	async function addReplyTo(postData, timestamp) {
 		if (!postData.toPid) {
