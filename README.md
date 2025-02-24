@@ -1,3 +1,10 @@
+# Team Members
+Brady Nolin
+Panpan Tochirakul
+Patrice Bortey
+Riya Kinny
+
+
 # ![NodeBB](public/images/sm-card.png)
 
 [![Workflow](https://github.com/CMU-313/NodeBB/actions/workflows/test.yaml/badge.svg)](https://github.com/CMU-313/NodeBB/actions/workflows/test.yaml)
