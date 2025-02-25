@@ -96,7 +96,7 @@ Categories.getCategoriesByPrivilege = async function (set, uid, privilege) {
 
 Categories.getModerators = async function (cid) {
 	const uids = await Categories.getModeratorUids([cid]);
-	return await user.getUsersFields(uids[0], ['uid', 'username', 'userslug', 'picture']);
+	return await user.getUsersFields(uids[0], ['uid', 'username', 'userTitle', 'userslug', 'picture']);
 };
 
 Categories.getModeratorUids = async function (cids) {
