@@ -24,7 +24,7 @@
 				</a>
 			</div>
 
-			<a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
+			<a class="fw-bold text-nowrap" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}{posts.user.displayname}{posts.user.displayname}{posts.user.displayname}</a>
 
 			{{{ each posts.user.selectedGroups }}}
 			{{{ if posts.user.selectedGroups.slug }}}
@@ -46,7 +46,7 @@
 			{{{ if posts.user.custom_profile_info.length }}}
 			<div>
 				<span>
-					&#124;
+					&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;&#124;*******************
 					{{{ each posts.user.custom_profile_info }}}
 					{posts.user.custom_profile_info.content}
 					{{{ end }}}
@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="content mt-2 text-break" component="post/content" itemprop="text">
-			{posts.content}
+			{posts.content}<span>*************</span>
 		</div>
 	</div>
 </div>
