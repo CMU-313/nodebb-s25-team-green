@@ -170,9 +170,9 @@ describe('Post\'s', () => {
 				title: 'Anonymous Test Topic',
 				content: 'Testing default isAnonymous value',
 			});
-		
+
 			const post = await posts.getPostData(postData.pid);
-		
+
 			assert.strictEqual(post.isAnonymous, false);
 		});
 
