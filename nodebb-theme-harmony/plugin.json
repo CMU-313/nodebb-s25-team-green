@@ -9,7 +9,8 @@
 		{ "hook": "filter:user.saveSettings", "method": "saveUserSettings" },
 		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
 		{ "hook": "filter:middleware.renderHeader", "method": "filterMiddlewareRenderHeader" },
-		{ "hook": "filter:teasers.configureStripTags", "method": "filterTeasersConfigureStripTags"}
+		{ "hook": "filter:teasers.configureStripTags", "method": "filterTeasersConfigureStripTags"},
+		{ "hook": "filter:user.whitelistFields", "method": "addUserField" }
 	],
 	"scripts": [
 		"public/harmony.js"
