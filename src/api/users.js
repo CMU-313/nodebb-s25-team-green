@@ -87,6 +87,11 @@ usersAPI.update = async function (caller, data) {
 	await user.updateProfile(caller.uid, data);
 	const userData = await user.getUserData(data.uid);
 
+	await user.updateProfile(caller.uid, {
+		uid,
+		userTitle: 'value',
+	}, ['userTitle']);
+
 	if (userData.username !== oldUserData.username) {
 		await events.log({
 			type: 'username-change',
@@ -666,6 +671,9 @@ usersAPI.changePicture = async (caller, data) => {
 		picture: picture,
 		'icon:bgColor': data.bgColor,
 	}, ['picture', 'icon:bgColor']);
+
+
+
 };
 
 const exportMetadata = new Map([
