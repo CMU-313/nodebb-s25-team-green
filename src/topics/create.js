@@ -74,12 +74,12 @@ module.exports = function (Topics) {
 		}
 
 		// Check if the topic is marked as private
-        if (data.isPrivate) {
-            // Set permissions so that only the creator and admin users can view the topic
-            await privileges.topics.set('read', topicData.tid, data.uid, true);
-            const adminGroup = await groups.getGroupNameByPrivilege('admin');
-            await privileges.topics.set('read', topicData.tid, adminGroup, true);
-        }
+		if (data.isPrivate) {
+		// Set permissions so that only the creator and admin users can view the topic
+			await privileges.topics.set('read', topicData.tid, data.uid, true);
+			// Allow users in administrators group to read the topic
+			await privileges.posts.set('read', topicData.pid, 'administrators', true);
+		}
 
 		plugins.hooks.fire('action:topic.save', { topic: _.clone(topicData), data: data });
 		return topicData.tid;

@@ -66,12 +66,13 @@ module.exports = function (Posts) {
 		]);
 
 		// Check if the post is marked as private
-        if (data.isPrivate) {
-            // Set permissions so that only the creator and admin users can view the post
-            await privileges.posts.set('read', postData.pid, uid, true);
-            const adminGroup = await groups.getGroupNameByPrivilege('admin');
-            await privileges.posts.set('read', postData.pid, adminGroup, true);
-        }
+		if (data.isPrivate) {
+			// Set permissions so that only the creator and admin users can view the post
+			// Allow the creator to view the post
+			await privileges.posts.set('read', postData.pid, uid, true);
+			// Allow admin users to view the post
+			await privileges.posts.set('read', postData.pid, 'administrators', true);
+		}
 
 		result = await plugins.hooks.fire('filter:post.get', { post: postData, uid: data.uid });
 		result.post.isMain = isMain;

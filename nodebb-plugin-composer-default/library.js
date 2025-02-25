@@ -32,7 +32,7 @@ plugin.init = async function (data) {
 
 plugin.appendConfig = async function (config) {
 	config['composer-default'] = await meta.settings.get('composer-default');
-	config['composer-default'].isPrivate = config['composer-default'].isPrivate || false; //initialize isPrivate to false if not set
+	config['composer-default'].isPrivate = config['composer-default'].isPrivate || false; // Initialize isPrivate to false if not set
 	return config;
 };
 
@@ -224,7 +224,8 @@ plugin.filterComposerBuild = async function (hookData) {
 			save_id: save_id,
 			privileges: globalPrivileges,
 			'composer:showHelpTab': meta.config['composer:showHelpTab'] === 1,
-			isPrivate: req.query.isPrivate === 'true', // initialize isPrivate to false if not set
+			// Initialize isPrivate to false if not set
+			isPrivate: req.query.isPrivate === 'true',
 		},
 	};
 };
