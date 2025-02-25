@@ -54,6 +54,12 @@
 {{{ end }}}
 {{{ end }}}
 
+<li>
+    <a class="dropdown-item rounded-1 d-flex align-items-center gap-2 endorse-btn" role="menuitem" href="#" data-pid="{{posts.pid}}">
+        <span class="menu-icon"><i class="fa fa-fw text-secondary fa-thumbs-up"></i></span> Endorse
+    </a>
+</li>
+
 {{{ each posts.tools }}}
 <li {{{ if ./disabled }}}class="disabled" {{{ end }}}>
 	<a class="dropdown-item rounded-1 d-flex align-items-center gap-2" {{{ if ./action}}}component="{./action}"{{{ end }}} role="menuitem" href="{{{ if ./href }}}{./href}{{{ else }}}#{{{ end }}}">
