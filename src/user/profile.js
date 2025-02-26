@@ -79,6 +79,7 @@ module.exports = function (User) {
 		await isAboutMeValid(callerUid, data);
 		await isSignatureValid(callerUid, data);
 		isFullnameValid(data);
+		isUserTitleValid(data);
 		isLocationValid(data);
 		isBirthdayValid(data);
 		isGroupTitleValid(data);
@@ -177,7 +178,11 @@ module.exports = function (User) {
 			throw new Error('[[error:invalid-fullname]]');
 		}
 	}
-
+	function isUserTitleValid(data) {
+		if (data.userTitle && (validator.isURL(data.userTitle) || data.userTitle.length > 255)) {
+			throw new Error('[[error:invalid-userTitle]]');
+		}
+	}
 	function isLocationValid(data) {
 		if (data.location && (validator.isURL(data.location) || data.location.length > 255)) {
 			throw new Error('[[error:invalid-location]]');

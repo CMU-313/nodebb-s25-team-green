@@ -20,7 +20,7 @@ const intFields = [
 
 module.exports = function (User) {
 	const fieldWhitelist = [
-		'uid', 'username', 'userslug', 'email', 'email:confirmed', 'joindate',
+		'uid', 'username', 'userslug', 'userTitle', 'email', 'email:confirmed', 'joindate',
 		'lastonline', 'picture', 'icon:bgColor', 'fullname', 'location', 'birthday', 'website',
 		'aboutme', 'signature', 'uploadedpicture', 'profileviews', 'reputation',
 		'postcount', 'topiccount', 'lastposttime', 'banned', 'banned:expire',
@@ -33,6 +33,7 @@ module.exports = function (User) {
 		username: '[[global:guest]]',
 		displayname: '[[global:guest]]',
 		userslug: '',
+		userTitle: 'Guest',
 		fullname: '[[global:guest]]',
 		email: '',
 		'icon:text': '?',
@@ -209,7 +210,9 @@ module.exports = function (User) {
 			if (user.hasOwnProperty('email')) {
 				user.email = validator.escape(user.email ? user.email.toString() : '');
 			}
-
+			if (user.hasOwnProperty('userTitle')) {
+				user.email = validator.escape(user.userTitle ? user.userTitle.toString() : '');
+			}
 			if (!user.uid) {
 				for (const [key, value] of Object.entries(User.guestData)) {
 					user[key] = value;
