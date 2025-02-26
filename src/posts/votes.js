@@ -124,7 +124,9 @@ module.exports = function (Posts) {
 
 	async function unvote(pid, uid, type, voteStatus) {
 		const owner = await Posts.getPostField(pid, 'uid');
-
+		if (parseInt(uid, 10) === parseInt(owner, 10)) {
+			throw new Error('[[error:self-vote]]');
+		}
 		if (type === 'downvote' || type === 'upvote') {
 			await checkVoteLimitation(pid, uid, type);
 		}
