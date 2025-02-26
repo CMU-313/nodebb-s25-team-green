@@ -15,7 +15,7 @@ const plugins = require('../plugins');
 module.exports = function (User) {
 	User.updateProfile = async function (uid, data, extraFields) {
 		let fields = [
-			'username', 'email', 'fullname', 'website', 'location',
+			'username', 'email', 'fullname', 'userTitle', 'website', 'location',
 			'groupTitle', 'birthday', 'signature', 'aboutme',
 		];
 		if (Array.isArray(extraFields)) {
