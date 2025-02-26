@@ -298,3 +298,14 @@ topicsAPI.bump = async (caller, { tid }) => {
 	await topics.markAsUnreadForAll(tid);
 	topics.pushUnreadCount(caller.uid);
 };
+
+  Topics.getTopicPostsWithEndorsements = async function (tid, uid, start, stop) {
+	const posts = await Topics.getTopicPosts(tid, uid, start, stop);
+  
+	for (const post of posts) {
+	  const endorsementData = await Posts.getPostEndorsement(post.pid);
+	  post.isEndorsed = endorsementData.isEndorsed;
+	}
+  
+	return posts;
+  };
