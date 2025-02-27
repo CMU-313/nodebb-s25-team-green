@@ -162,13 +162,13 @@ describe('Post\'s', () => {
 			assert.equal(data.downvoted, false);
 		});
 
-		it('should set isAnonymous to false by default when creating a new post', async () => {
+		it('should set isPrivate to false by default when creating a new post', async () => {
 			const testUserUid = await user.create({ username: 'testuser' });
 			const { topicData, postData } = await topics.post({
 				uid: testUserUid,
 				cid: cid,
-				title: 'Anonymous Test Topic',
-				content: 'Testing default isAnonymous value',
+				title: 'Private Test Topic',
+				content: 'Testing default isPrivate value',
 			});
 
 			const post = await posts.getPostData(postData.pid);

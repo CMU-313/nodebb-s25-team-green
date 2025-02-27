@@ -329,7 +329,7 @@ dashboardController.getTopics = async (req, res) => {
 	const topicData = await topics.getTopicsByTids(tids);
 
 	topicData.forEach((topic) => {
-		topic.isAnonymous = topic.isAnonymous || false;
+		topic.isPrivate = topic.isPrivate || false;
 	});
 
 	res.render('admin/dashboard/topics', {

@@ -3,9 +3,9 @@ TopicObject:
     - $ref: '#/TopicObjectSlim'
     - type: object
       properties:
-        isAnonymous:
+        isPrivate:
           type: boolean
-          description: "Indicates if the post was made anonymously."
+          description: "Indicates if the post was made Privately."
           nullable: true
         lastposttime:
           type: number
@@ -203,9 +203,9 @@ TopicObjectSlim:
         uid:
           type: number
           description: A user identifier
-        isAnonymous:
+        isPrivate:
           type: boolean
-          description: "Indicates if the post was made anonymously."
+          description: "Indicates if the post was made Privately."
           nullable: true
         cid:
           type: number
