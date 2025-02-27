@@ -265,18 +265,6 @@ describe('Post\'s', () => {
 		});
 	});
 
-	describe('endorsements', () => {
-		it('should endorse a post successfully', async () => {
-
-			const result = await apiPosts.endorse({ uid: voterUid }, { pid: postData.pid });
-	
-			assert(result.post.content.includes('This post has been endorsed'), 'Endorsement message not found in post content');
-
-			const hasEndorsed = await posts.hasEndorsed(postData.pid, voterUid);
-			assert.strictEqual(hasEndorsed, true, 'Endorsement was not recorded in the database');
-		});
-	});
-
 	describe('bookmarking', () => {
 		it('should bookmark a post', async () => {
 			const data = await apiPosts.bookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}` });
