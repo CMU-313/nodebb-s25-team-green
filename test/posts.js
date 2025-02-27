@@ -173,7 +173,7 @@ describe('Post\'s', () => {
 
 			const post = await posts.getPostData(postData.pid);
 
-			assert.strictEqual(post.isAnonymous, false);
+			assert.strictEqual(post.isPrivate, false);
 		});
 
 		it('should add the pid to the :votes sorted set for that user', async () => {
