@@ -267,10 +267,13 @@ describe('Post\'s', () => {
 
 	describe('endorsements', () => {
 		it('should endorse a post successfully', async () => {
+			// Endorse the post
 			const result = await apiPosts.endorse({ uid: voterUid }, { pid: postData.pid });
 
+			// Verify that the endorsement message is added
 			assert.equal(result.post.content.includes('This post has been endorsed'), true);
 
+			// Verify that the endorsement is recorded
 			const hasEndorsed = await posts.hasEndorsed(postData.pid, voterUid);
 			assert.equal(hasEndorsed, true);
 		});
