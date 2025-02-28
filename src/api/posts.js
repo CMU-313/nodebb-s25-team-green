@@ -345,6 +345,20 @@ postsAPI.getVoters = async function (caller, data) {
 	};
 };
 
+// ChatGPT Helped write this code and make the test for endorsing
+postsAPI.getPostEndorsement = async function (pid) {
+	return new Promise((resolve, reject) => {
+		db.isObjectField(`post:${pid}`, 'endorsed', (err, isField) => {
+			if (err) {
+				console.log(err);
+				reject(err);
+			} else {
+				resolve(!!isField);
+			}
+		});
+	});
+};
+
 postsAPI.getUpvoters = async function (caller, data) {
 	if (!data.pid) {
 		throw new Error('[[error:invalid-data]]');
@@ -378,6 +392,7 @@ postsAPI.getUpvoters = async function (caller, data) {
 	};
 };
 
+// ChatGPT helped write this code and make the test for endorsing
 async function canSeeVotes(uid, cids, type) {
 	const isArray = Array.isArray(cids);
 	if (!isArray) {

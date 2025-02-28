@@ -359,6 +359,18 @@ describe('Topic\'s', () => {
 			assert(pid);
 		});
 
+		// ChatGPT Helped write this code and make the test for endorsing
+		it('should allow endorsing and unendorsing a reply', async () => {
+			const result = await topics.post({ uid: fooUid, title: 'nested test', content: 'main post', cid: topic.categoryId });
+			const reply1 = await topics.reply({ uid: fooUid, content: 'reply post 1', tid: result.topicData.tid });
+
+			const endorsed = await apiPosts.getPostEndorsement(reply1.pid);
+			assert(endorsed);
+
+			const unendorsed = await apiPosts.getPostEndorsement(reply1.pid);
+			assert(!unendorsed);
+		});
+
 		it('should delete nested relies properly', async () => {
 			const result = await topics.post({ uid: fooUid, title: 'nested test', content: 'main post', cid: topic.categoryId });
 			const reply1 = await topics.reply({ uid: fooUid, content: 'reply post 1', tid: result.topicData.tid });
