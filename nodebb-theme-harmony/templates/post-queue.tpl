@@ -103,6 +103,7 @@
 							<div class="small">
 								{{{ if posts.user.userslug}}}
 								<a class="text-decoration-none" href="{config.relative_path}/uid/{posts.user.uid}">{buildAvatar(posts.user, "24px", true, "not-responsive")} {posts.user.username}</a>
+								<br/>{posts.user.userTitle}
 								{{{ else }}}
 								{posts.user.username}
 								{{{ end }}}

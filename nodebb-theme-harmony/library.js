@@ -188,3 +188,8 @@ library.filterTeasersConfigureStripTags = function (hookData) {
 	hookData.tags.push('a');
 	return hookData;
 };
+library.addUserField = async ({ uids, whitelist }) => {
+	whitelist.push('userTitle');
+
+	return { uids, whitelist };
+};
