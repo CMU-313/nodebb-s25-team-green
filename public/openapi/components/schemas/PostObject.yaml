@@ -140,3 +140,6 @@ PostObject:
       type: boolean
     replies:
       type: number
+    isPrivate:
+      type: boolean
+      description: Indicates whether the post is private or not
