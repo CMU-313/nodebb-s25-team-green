@@ -20,7 +20,7 @@ const intFields = [
 
 module.exports = function (User) {
 	const fieldWhitelist = [
-		'uid', 'username', 'userslug', 'email', 'email:confirmed', 'joindate',
+		'uid', 'username', 'userslug', 'userTitle', 'email', 'email:confirmed', 'joindate',
 		'lastonline', 'picture', 'icon:bgColor', 'fullname', 'location', 'birthday', 'website',
 		'aboutme', 'signature', 'uploadedpicture', 'profileviews', 'reputation',
 		'postcount', 'topiccount', 'lastposttime', 'banned', 'banned:expire',
@@ -34,6 +34,7 @@ module.exports = function (User) {
 		displayname: '[[global:guest]]',
 		userslug: '',
 		fullname: '[[global:guest]]',
+		userTitle: 'Guest',
 		email: '',
 		'icon:text': '?',
 		'icon:bgColor': '#aaa',
@@ -111,6 +112,9 @@ module.exports = function (User) {
 
 		if (fields.includes('username') && !fields.includes('fullname')) {
 			addField('fullname');
+		}
+		if (fields.includes('username') && !fields.includes('userTitle')) {
+			addField('userTitle');
 		}
 	}
 
@@ -209,7 +213,9 @@ module.exports = function (User) {
 			if (user.hasOwnProperty('email')) {
 				user.email = validator.escape(user.email ? user.email.toString() : '');
 			}
-
+			if (user.hasOwnProperty('userTitle')) {
+				user.userTitle = validator.escape(user.userTitle ? user.userTitle.toString() : '');
+			}
 			if (!user.uid) {
 				for (const [key, value] of Object.entries(User.guestData)) {
 					user[key] = value;

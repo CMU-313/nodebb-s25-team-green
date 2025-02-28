@@ -109,7 +109,7 @@ User.sendPasswordResetEmail = async function (socket, uids) {
 	uids = uids.filter(uid => parseInt(uid, 10));
 
 	await Promise.all(uids.map(async (uid) => {
-		const userData = await user.getUserFields(uid, ['email', 'username']);
+		const userData = await user.getUserFields(uid, ['email', 'username', 'usertitle']);
 		if (!userData.email) {
 			throw new Error(`[[error:user-doesnt-have-email, ${userData.username}]]`);
 		}

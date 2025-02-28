@@ -31,6 +31,7 @@ define('admin/manage/users', [
 			const defaultFields = [
 				{ label: '[[admin/manage/users:export-field-email]]', field: 'email', selected: true },
 				{ label: '[[admin/manage/users:export-field-username]]', field: 'username', selected: true },
+				{ label: '[[admin/manage/users:export-field-userTitle]]', field: 'userTitle', selected: false },
 				{ label: '[[admin/manage/users:export-field-uid]]', field: 'uid', selected: true },
 				{ label: '[[admin/manage/users:export-field-ip]]', field: 'ip', selected: true },
 				{ label: '[[admin/manage/users:export-field-joindate]]', field: 'joindate', selected: false },

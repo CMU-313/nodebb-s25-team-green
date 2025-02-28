@@ -15,7 +15,7 @@ const plugins = require('../plugins');
 module.exports = function (User) {
 	User.updateProfile = async function (uid, data, extraFields) {
 		let fields = [
-			'username', 'email', 'fullname', 'website', 'location',
+			'username', 'email', 'fullname', 'userTitle', 'website', 'location',
 			'groupTitle', 'birthday', 'signature', 'aboutme',
 		];
 		if (Array.isArray(extraFields)) {
@@ -80,6 +80,7 @@ module.exports = function (User) {
 		await isSignatureValid(callerUid, data);
 		isFullnameValid(data);
 		isLocationValid(data);
+		isUserTitleValid(data);
 		isBirthdayValid(data);
 		isGroupTitleValid(data);
 	}
@@ -177,7 +178,13 @@ module.exports = function (User) {
 			throw new Error('[[error:invalid-fullname]]');
 		}
 	}
-
+	
+	function isUserTitleValid(data) {
+		if (data.userTitle && (validator.isURL(data.userTitle) || data.userTitle.length > 255)) {
+			throw new Error('[[error:invalid-userTitle]]');
+		}
+	}
+	
 	function isLocationValid(data) {
 		if (data.location && (validator.isURL(data.location) || data.location.length > 255)) {
 			throw new Error('[[error:invalid-location]]');
