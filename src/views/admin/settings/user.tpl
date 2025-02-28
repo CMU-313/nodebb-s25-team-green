@@ -39,6 +39,10 @@
 					<label for="hideFullname" class="form-check-label">[[admin/settings/user:hide-fullname]]</label>
 				</div>
 				<div class="form-check form-switch mb-3">
+					<input class="form-check-input" type="checkbox" id="hideUserTitle" data-field="hideUserTitle">
+					<label for="hideUserTitle" class="form-check-label">[[admin/settings/user:hide-userTitle]]</label>
+				</div>
+				<div class="form-check form-switch mb-3">
 					<input class="form-check-input" type="checkbox" id="hideEmail" data-field="hideEmail">
 					<label for="hideEmail" class="form-check-label">[[admin/settings/user:hide-email]]</label>
 				</div>

@@ -11,7 +11,10 @@
 				<label class="form-label fw-bold" for="fullname">[[user:fullname]]</label>
 				<input class="form-control" type="text" id="fullname" name="fullname" placeholder="[[user:fullname]]" value="{fullname}">
 			</div>
-
+			<div class="mb-3">
+				<label class="form-label fw-bold" for="userTitle">[[user:userTitle]]</label>
+				<input class="form-control" type="text" id="userTitle" name="userTitle" placeholder="[[user:userTitle]]" value="{userTitle}">
+			</div>
 			{{{ if allowWebsite }}}
 			<div class="mb-3">
 				<label class="form-label fw-bold" for="website">[[user:website]]</label>
