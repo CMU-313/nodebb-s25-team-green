@@ -65,6 +65,15 @@ module.exports = function (Posts) {
 			Posts.uploads.sync(postData.pid),
 		]);
 
+		// Check if the post is marked as private
+		if (data.isPrivate) {
+			// Set permissions so that only the creator and admin users can view the post
+			// Allow the creator to view the post
+			await privileges.posts.set('read', postData.pid, uid, true);
+			// Allow admin users to view the post
+			await privileges.posts.set('read', postData.pid, 'administrators', true);
+		}
+
 		result = await plugins.hooks.fire('filter:post.get', { post: postData, uid: data.uid });
 		result.post.isMain = isMain;
 		plugins.hooks.fire('action:post.save', { post: _.clone(result.post) });
