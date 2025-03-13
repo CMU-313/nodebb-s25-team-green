@@ -162,6 +162,20 @@ describe('Post\'s', () => {
 			assert.equal(data.downvoted, false);
 		});
 
+		it('should set isPrivate to false by default when creating a new post', async () => {
+			const testUserUid = await user.create({ username: 'testuser' });
+			const { topicData, postData } = await topics.post({
+				uid: testUserUid,
+				cid: cid,
+				title: 'Private Test Topic',
+				content: 'Testing default isPrivate value',
+			});
+
+			const post = await posts.getPostData(postData.pid);
+
+			assert.strictEqual(post.isPrivate, false);
+		});
+
 		it('should add the pid to the :votes sorted set for that user', async () => {
 			const cid = await posts.getCidByPid(postData.pid);
 			const { uid, pid } = postData;

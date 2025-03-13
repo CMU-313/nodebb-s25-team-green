@@ -3,6 +3,10 @@ TopicObject:
     - $ref: '#/TopicObjectSlim'
     - type: object
       properties:
+        isPrivate:
+          type: boolean
+          description: "Indicates if the post was made Privately."
+          nullable: true
         lastposttime:
           type: number
         category:
@@ -199,6 +203,10 @@ TopicObjectSlim:
         uid:
           type: number
           description: A user identifier
+        isPrivate:
+          type: boolean
+          description: "Indicates if the post was made Privately."
+          nullable: true
         cid:
           type: number
           description: A category identifier

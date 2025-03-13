@@ -328,6 +328,10 @@ dashboardController.getTopics = async (req, res) => {
 	const tids = await db.getSortedSetRangeByScore('topics:tid', 0, 500, start, end);
 	const topicData = await topics.getTopicsByTids(tids);
 
+	topicData.forEach((topic) => {
+		topic.isPrivate = topic.isPrivate || false;
+	});
+
 	res.render('admin/dashboard/topics', {
 		set: 'topics',
 		query: req.query,
