@@ -125,6 +125,7 @@
 	"export-users-fields-title": "Select CSV Fields",
 	"export-field-email": "Email",
 	"export-field-username": "Username",
+	"export-field-userTitle": "User Title",
 	"export-field-uid": "UID",
 	"export-field-ip": "IP",
 	"export-field-joindate": "Join date",
