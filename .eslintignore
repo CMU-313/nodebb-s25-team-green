@@ -21,3 +21,4 @@ test/files
 install/docker/
 *.flow.js
 *.flow
+lib/
