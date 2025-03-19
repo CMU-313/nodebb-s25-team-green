@@ -1,0 +1,39 @@
+name: Fuzz Tests
+
+on:
+  push:
+    branches:
+      - fastfuzz-tool
+  pull_request:
+    branches:
+      - fastfuzz-tool
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.17.0
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install Mocha and Chai (if not already in devDependencies)
+      run: npm install mocha chai --save-dev
+
+    - name: Run All Fuzz Tests
+      run: npx mocha "test/fuzz/**/*.test.js"
