@@ -3,8 +3,8 @@
 
 'use strict';
 
-const { expect } = require('chai');
-const utils = require('../../src/utils'); // Using require to prevent ESM issues
+import { expect } from 'chai';
+import utils from '../../src/utils.js'; // Using require to prevent ESM issues
 
 describe('Fuzz Test: utils.generateUUID()', function () {
     it('should generate valid UUIDs consistently', function () {
