@@ -36,4 +36,4 @@ jobs:
       run: npm install mocha chai --save-dev
 
     - name: Run All Fuzz Tests
-      run: npx mocha "test/fuzz/**/*.test.js"
+      run: npx mocha "test/fuzz/**/*.test.mjs"
