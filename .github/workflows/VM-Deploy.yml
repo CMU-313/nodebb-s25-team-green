@@ -26,9 +26,9 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.1
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_ADMIN }}
-          password: ${{ secrets.ADMIN_PASSWORD }}
+          host: 128.2.205.171
+          username: itochira@17313-team12.s3d.cmu.edu
+          password: ISR2025##team12
           script: | 
             cd code/${{ secrets.REPO_NAME }}
             git pull origin main
