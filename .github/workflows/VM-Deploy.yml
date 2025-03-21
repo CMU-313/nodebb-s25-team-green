@@ -28,7 +28,7 @@ jobs:
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_ADMIN }}
-          password: ${{ secrets.ADMIN_PASSWORD }}
+          password: ${{ secrets.ADMIN-PASSWORD }}
           script: | 
             cd code/${{ secrets.REPO_NAME }}
             git pull origin main
