@@ -187,4 +187,16 @@ SocketPosts.editQueuedContent = async function (socket, data) {
 	return { postData: data };
 };
 
+SocketPosts.translate = async function (socket, data) {
+	if (!socket.uid) {
+		throw new Error('[[error:not-logged-in]]');
+	}
+	
+	if (!data || !data.content) {
+		throw new Error('[[error:invalid-data]]');
+	}
+
+	return await translator.queryLLM(data.content);
+};
+
 require('../promisify')(SocketPosts);

@@ -61,11 +61,18 @@
 
 		<div class="content mt-2 text-break" component="post/content" itemprop="text">
 			{posts.content}
+			<div component="post/translated-content" class="translated-content mt-2 border-start ps-2 text-muted" style="display: none;">
+				<small class="d-block mb-1">[[topic:translated_content]]</small>
+				<div class="translated-text"></div>
+			</div>
 		</div>
 	</div>
 </div>
 
-<div component="post/footer" class="post-footer border-bottom pb-2">
+<div component="post/footer" class="post-footer d-flex align-items-center gap-2">
+	<button component="post/translate" class="btn btn-sm btn-link text-muted p-0 {{{ if posts.isTranslated }}}hidden{{{ end }}}">
+		<i class="fa fa-language"></i> [[topic:translate]]
+	</button>
 	{{{ if posts.user.signature }}}
 	<div component="post/signature" data-uid="{posts.user.uid}" class="text-xs text-muted mt-2">{posts.user.signature}</div>
 	{{{ end }}}

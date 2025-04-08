@@ -446,5 +446,42 @@ define('forum/topic/posts', [
 		});
 	};
 
+	Posts.addPostHandlers = function (tid) {
+		// ... existing code ...
+
+		// Add translation handler
+		postContainer.on('click', '[component="post/translate"]', function () {
+			const postEl = $(this).parents('[component="post"]');
+			const pid = postEl.attr('data-pid');
+			const originalContent = postEl.find('[component="post/content"]').text().trim();
+			
+			$(this).prop('disabled', true);
+			
+			socket.emit('posts.translate', {
+				pid: pid,
+				content: originalContent
+			}, function (err, result) {
+				$(this).prop('disabled', false);
+				
+				if (err) {
+					return alerts.error(err);
+				}
+				
+				const translatedContent = postEl.find('[component="post/translated-content"]');
+				const translatedText = postEl.find('[component="post/translated-content"] .translated-text');
+				
+				if (!result[0]) { // Content is already in English
+					translatedContent.hide();
+					alerts.info('[[topic:already_english]]');
+					return;
+				}
+				
+				translatedText.html(result[1]);
+				translatedContent.fadeIn();
+				$(this).addClass('hidden');
+			}.bind(this));
+		});
+	};
+
 	return Posts;
 });

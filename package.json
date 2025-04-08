@@ -117,6 +117,7 @@
         "nodebb-widget-essentials": "7.0.18",
         "nodemailer": "6.9.13",
         "nprogress": "0.2.0",
+        "openai": "^4.28.0",
         "passport": "0.7.0",
         "passport-http-bearer": "1.0.1",
         "passport-local": "1.0.0",
