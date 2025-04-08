@@ -266,6 +266,12 @@ define('forum/topic/postTools', [
 		postContainer.on('click', '[component="post/chat"]', function () {
 			openChat($(this));
 		});
+
+		$('[component="topic"]').on('click', '[component="post/translate"]', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			onTranslateClicked($(this));
+		});
 	}
 
 	async function onReplyClicked(button, tid) {
@@ -547,6 +553,24 @@ define('forum/topic/postTools', [
 				top: lastRect.bottom + $(window).scrollTop(),
 				left: tooltipWidth > lastRect.width ? lastRect.left : lastRect.left + lastRect.width - tooltipWidth,
 			});
+		}
+	}
+
+	async function onTranslateClicked(button) {
+		const postEl = button.closest('[data-pid]');
+		const pid = postEl.attr('data-pid');
+		const content = postEl.find('[component="post/content"]').text();
+		const translatedContentEl = postEl.find('[component="post/translated-content"]');
+		const translatedTextEl = translatedContentEl.find('.translated-text');
+
+		try {
+			const response = await socket.emit('posts.translate', { pid, content });
+			if (response && response.translatedContent) {
+				translatedTextEl.html(response.translatedContent);
+				translatedContentEl.show();
+			}
+		} catch (err) {
+			alerts.error(err);
 		}
 	}
 
