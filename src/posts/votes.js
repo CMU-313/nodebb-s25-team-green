@@ -127,7 +127,6 @@ module.exports = function (Posts) {
 		if (parseInt(uid, 10) === parseInt(owner, 10)) {
 			throw new Error('[[error:self-vote]]');
 		}
-
 		if (type === 'downvote' || type === 'upvote') {
 			await checkVoteLimitation(pid, uid, type);
 		}
