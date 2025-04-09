@@ -566,6 +566,10 @@ define('forum/topic/postTools', [
 		try {
 			const response = await socket.emit('posts.translate', { pid, content });
 			if (response && response.translatedContent) {
+				if (response.isEnglish) {
+					alerts.info('[[topic:post-is-already-english]]');
+					return;
+				}
 				translatedTextEl.html(response.translatedContent);
 				translatedContentEl.show();
 			}

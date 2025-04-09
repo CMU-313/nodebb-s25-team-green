@@ -196,7 +196,11 @@ SocketPosts.translate = async function (socket, data) {
 		throw new Error('[[error:invalid-data]]');
 	}
 
-	return await translator.queryLLM(data.content);
+	const [isEnglish, translatedContent] = await translator.queryLLM(data.content);
+	return {
+		isEnglish,
+		translatedContent
+	};
 };
 
 require('../promisify')(SocketPosts);
