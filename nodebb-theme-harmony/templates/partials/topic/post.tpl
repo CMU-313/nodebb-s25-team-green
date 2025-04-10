@@ -61,11 +61,18 @@
 
 		<div class="content mt-2 text-break" component="post/content" itemprop="text">
 			{posts.content}
+			<div component="post/translated-content" class="translated-content mt-2 border-start ps-2 text-muted" style="display: none;">
+				<small class="d-block mb-1">[[topic:translated_content]]</small>
+				<div class="translated-text"></div>
+			</div>
 		</div>
 	</div>
 </div>
 
-<div component="post/footer" class="post-footer border-bottom pb-2">
+<div component="post/footer" class="post-footer d-flex align-items-center gap-2">
+	<button component="post/translate" class="btn btn-sm btn-link text-muted p-0 {{{ if posts.isTranslated }}}hidden{{{ end }}}">
+		<i class="fa fa-language"></i> [[topic:translate]]
+	</button>
 	{{{ if posts.user.signature }}}
 	<div component="post/signature" data-uid="{posts.user.uid}" class="text-xs text-muted mt-2">{posts.user.signature}</div>
 	{{{ end }}}
@@ -96,6 +103,7 @@
 		<!-- IMPORT partials/topic/reactions.tpl -->
 		<a component="post/reply" href="#" class="btn-ghost-sm {{{ if !privileges.topics:reply }}}hidden{{{ end }}}" title="[[topic:reply]]"><i class="fa fa-fw fa-reply text-primary"></i></a>
 		<a component="post/quote" href="#" class="btn-ghost-sm {{{ if !privileges.topics:reply }}}hidden{{{ end }}}" title="[[topic:quote]]"><i class="fa fa-fw fa-quote-right text-primary"></i></a>
+		<a component="post/translate" href="#" class="btn-ghost-sm" title="[[topic:translate]]"><i class="fa fa-fw fa-language text-primary"></i></a>
 
 		{{{ if !reputation:disabled }}}
 		<div class="d-flex votes align-items-center">

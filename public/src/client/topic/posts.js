@@ -30,7 +30,6 @@ define('forum/topic/posts', [
 		data.loggedIn = !!app.user.uid;
 		data.privileges = ajaxify.data.privileges;
 
-		// if not a scheduled topic, prevent timeago in future by setting timestamp to 1 sec behind now
 		data.posts[0].timestamp = data.posts[0].topic.scheduled ? data.posts[0].timestamp : Date.now() - 1000;
 		data.posts[0].timestampISO = utils.toISOString(data.posts[0].timestamp);
 
@@ -443,6 +442,43 @@ define('forum/topic/posts', [
 			if ($this.find(':hidden:not(br)').length && !$this.find('.toggle').length) {
 				$this.append('<i class="d-inline-block fa fa-angle-down pointer toggle py-1 px-3 border text-bg-light"></i>');
 			}
+		});
+	};
+
+	Posts.addPostHandlers = function (tid) {
+		// ... existing code ...
+
+		// Add translation handler
+		postContainer.on('click', '[component="post/translate"]', function () {
+			const postEl = $(this).parents('[component="post"]');
+			const pid = postEl.attr('data-pid');
+			const originalContent = postEl.find('[component="post/content"]').text().trim();
+			
+			$(this).prop('disabled', true);
+			
+			socket.emit('posts.translate', {
+				pid: pid,
+				content: originalContent
+			}, function (err, result) {
+				$(this).prop('disabled', false);
+				
+				if (err) {
+					return alerts.error(err);
+				}
+				
+				const translatedContent = postEl.find('[component="post/translated-content"]');
+				const translatedText = postEl.find('[component="post/translated-content"] .translated-text');
+				
+				if (!result[0]) { // Content is already in English
+					translatedContent.hide();
+					alerts.info('[[topic:already_english]]');
+					return;
+				}
+				
+				translatedText.html(result[1]);
+				translatedContent.fadeIn();
+				$(this).addClass('hidden');
+			}.bind(this));
 		});
 	};
 
